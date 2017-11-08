@@ -5,6 +5,9 @@
  */
 package Problema;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,20 +26,38 @@ public class Busqueda {
     Stack <puzzle> pilaAux=new <puzzle>Stack();
     int profArbol=4;int nodos=0; int prof=0;
     int nodosExplorar=100;
+    boolean pasoApaso=false;
+    BufferedReader io ;
     Stack <Queue<puzzle>> pilaAuxColas=new <Queue<puzzle>>Stack();
 //    Queue <puzzle>auxProf2;
     int iCero=-1,jCero=-1;
-    public void busquedaPrimeroProfundidad(puzzle p1,puzzle p2){
+    public void busquedaPrimeroProfundidad(puzzle p1,puzzle p2,boolean paso) throws IOException{
+        pasoApaso=paso;
+        io= new BufferedReader(new InputStreamReader(System.in));
         puzzle ori=p1;puzzle ori2=p2;
-        
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("¿Desea ingresar profundidad y cantidad de nodos maximas? Y - si ; N no");
+        String variable;
+        variable=in.readLine();
+        if(variable.trim().equals("Y")){
+       System.out.println("Indique la profundidad que desea alcanzar: ");
+       this.profArbol=Integer.parseInt(in.readLine());
+       System.out.println("Indique la cantidad de nodos que desea revisar: ");
+       this.nodosExplorar=Integer.parseInt(in.readLine());
+        }else{
+            System.out.println("El máximo de nodos a explorar es de 100 y la profundidad es de 4 ");
+        }
        // p1.mostrar();
         buscarP(p1,p2,auxProf);
     }
-    public void buscarP(puzzle p1,puzzle p2, Queue <puzzle> auxProf){
+    public void buscarP(puzzle p1,puzzle p2, Queue <puzzle> auxProf) throws IOException{
         Queue <puzzle> auxProf2;
        p1.mostrar();
        System.out.println("Profundidad: " + prof);
-        
+       if(pasoApaso){
+           System.out.println("Pulse una tecla para continuar");
+           io.readLine();
+        }
         boolean vx=esNodoAnalizado(p1);
         System.out.println(vx);
         if(iguales(p1,p2)||nodos>=nodosExplorar){
@@ -354,56 +375,35 @@ public class Busqueda {
     
     
     
-    public void busquedaPrimeroAnchura(puzzle p1, puzzle p2){
+    public void busquedaPrimeroAnchura(puzzle p1, puzzle p2,boolean paso) throws IOException{
+        this.pasoApaso=paso;
        puzzle ori=p1;puzzle ori2=p2;
-       
+       BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+       System.out.println("¿Desea ingresar profundidad y cantidad de nodos maximas? Y - si ; N no");
+        String variable;
+        variable=in.readLine();
+        if(variable.trim().equals("Y")){
+       System.out.println("Indique la profundidad que desea alcanzar: ");
+       this.profArbol=Integer.parseInt(in.readLine());
+       System.out.println("Indique la cantidad de nodos que desea revisar: ");
+       this.nodosExplorar=Integer.parseInt(in.readLine());
+        }else{
+            System.out.println("El máximo de nodos a explorar es de 100 y la profundidad es de 4 ");
+        }
        ls.add(generarPuzzle(p1));
            
         puzzle d = generarPuzzle(p1);
-        
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+         
         //ls.add(null);
        recurBuscar(d,p2,auxProf);
-//        while(!iguales(d,ori2)){
-//                
-//                d=generarPuzzle(ls.poll());
-//                
-//                
-//                d.mostrar();
-//                extenderNodos(d);
-//                
-//            
-//            
-//        }
-        
-       
-        
-        
-        
+   
     }
   
     Queue <puzzle> auxAnchura = new <puzzle>LinkedList();
     Queue <puzzle> auxAnchura2 = new <puzzle>LinkedList();
     Queue <Integer>colaAux2=new <Integer>LinkedList();
     int cantidad=1,cantidadFutura=0;int nAnalizados=0;
-    public void recurBuscar(puzzle p1,puzzle p2,Queue <puzzle> auxProf){
+    public void recurBuscar(puzzle p1,puzzle p2,Queue <puzzle> auxProf) throws IOException{
         
        Queue <puzzle> auxProf2;
        
@@ -426,8 +426,11 @@ public class Busqueda {
             cantidadFutura+=contarFuturosNodos(generarPuzzle(p1));
             cantidad--;
             p1.mostrar();
-            System.out.println(prof);
-            
+            System.out.println("Profundidad: "+ prof);
+            if(pasoApaso){
+                System.out.println("Pulse una tecla para continuar");
+                io.readLine();
+            }
             if(cantidad==0){
                 prof++;
             }
@@ -728,5 +731,182 @@ public class Busqueda {
             }
             
     }
-    
+    public void busquedaHill(puzzle p1, puzzle p2,boolean paso) throws IOException{
+        this.pasoApaso=paso;
+        Queue <puzzle> auxProf = new LinkedList();
+        auxProf.add(p1);
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        io=new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("¿Desea ingresar profundidad y cantidad de nodos maximas? Y - si ; N no");
+        String variable;
+        variable=in.readLine();
+        if(variable.trim().equals("Y")){
+       System.out.println("Indique la profundidad que desea alcanzar: ");
+       this.profArbol=Integer.parseInt(in.readLine());
+       System.out.println("Indique la cantidad de nodos que desea revisar: ");
+       this.nodosExplorar=Integer.parseInt(in.readLine());
+        }else{
+            System.out.println("El máximo de nodos a explorar es de 100 y la profundidad es de 4 ");
+        }
+        busquedaMaximaPendiente(p2,auxProf);
+    }
+    public void busqueda1Mejor(puzzle p1, puzzle p2,boolean paso) throws IOException{
+        this.pasoApaso=paso;
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        io=new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("¿Desea ingresar profundidad y cantidad de nodos maximas? Y - si ; N no");
+        String variable;
+        variable=in.readLine();
+        if(variable.trim().equals("Y")){
+       System.out.println("Indique la profundidad que desea alcanzar: ");
+       this.profArbol=Integer.parseInt(in.readLine());
+       System.out.println("Indique la cantidad de nodos que desea revisar: ");
+       this.nodosExplorar=Integer.parseInt(in.readLine());
+        }else{
+            System.out.println("El máximo de nodos a explorar es de 100 y la profundidad es de 4 ");
+        }
+        Queue <puzzle> auxProf = new LinkedList();
+        auxProf.add(p1);
+        busquedaPrimeroMejor(p2,auxProf,50);
+    }
+    public int coincidencias(puzzle p1, puzzle p2){
+        int coincidencias=0;
+        for(int i=0;i<3; i++){
+            for(int j=0;j<3;j++){
+                if(p1.getPuz()[i][j]==p2.getPuz()[i][j]){
+                    coincidencias++;
+                    
+                }
+            }
+        
+        }
+        return coincidencias;
+    }
+    public int distanciaManhatan(puzzle p1,puzzle p2){
+       //p1.mostrar();p2.mostrar();
+        int cantidadMovimientos=0;
+        boolean v=false;
+        int m=0,n=0;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                
+                int valor=p1.getPuz()[i][j];
+         //      System.out.println(valor);
+                    for(int x=0;x<3;x++){
+                        m=x;
+                        for(int y=0;y<3;y++){
+                            n=y;
+                            if(valor==p2.getPuz()[x][y]){
+//                                System.out.println("--");
+//                                System.out.println(i + " " + j);System.out.println(m + " " + n);
+//                                
+//                                System.out.println(p2.getPuz()[x][y]);
+                                int var=Math.abs(i-m)+Math.abs(j-n);
+                                cantidadMovimientos+=var;
+                                v=true;
+                                break;
+                            }
+                        }
+                        
+                    }
+                    
+                   
+                   
+                  // System.out.println(var);
+                    
+            }
+        }
+        System.out.println("Distancia:"+cantidadMovimientos);
+        return cantidadMovimientos;
+    }
+    int prof1Mejor=-1;
+    int nodosExp=0;
+    public void busquedaPrimeroMejor(puzzle p2,Queue <puzzle> auxProf,int cantidadAnterior) throws IOException{
+        prof1Mejor++;
+        Iterator it=auxProf.iterator();
+        if(prof1Mejor<profArbol||nodosExp>=nodosExplorar){
+        while(it.hasNext()){
+                puzzle p3 = new puzzle();
+               nodosExp++;
+                p3=generarPuzzle(auxProf.poll());
+                //System.out.println("Parte de extensión");
+                p3.mostrar();
+                System.out.println("Profundidad:" +prof1Mejor);
+                if(pasoApaso){
+                    System.out.println("Pulse una tecla para continuar");
+                    io.readLine();
+                }
+                int cantidadActual=distanciaManhatan(p3,p2);
+                if(iguales(p3,p2)){
+                    System.out.println("encontró solución");
+                    p3.mostrar();
+                    p2.mostrar();
+                    return;
+                }
+              
+                if(cantidadActual<=cantidadAnterior){
+                    Queue <puzzle> auxProf2 = extenderNodosProf(p3);
+                    busquedaPrimeroMejor(p2,auxProf2,cantidadActual);
+                }
+        }
+        }else{
+            System.out.println("Se alcanzó la profundidad maxima ó se superó la cantidad de nodos a explorar");
+            return;
+        }
+        
+        
+       
+    }
+    public void busquedaMaximaPendiente(puzzle p2,Queue <puzzle> auxProf) throws IOException{
+        if(prof>profArbol||nodosExp>nodosExplorar){
+            System.out.println("Se alcanzó la profundidad máxima o se superó la cantidad de nodos a explorar.");
+        }else{
+        puzzle p4 = new puzzle();
+        p4=auxProf.poll();
+        System.out.println("Primero de extensión:");
+        prof++;
+        nodosExp++;
+        p4.mostrar();
+        System.out.println("Profundidad" + prof);
+        if(pasoApaso){
+           System.out.println("Pulse una tecla para continuar");
+           io.readLine();
+        }
+        if(iguales(p4,p2)){
+                System.out.println("encontró solución");
+                p4.mostrar();
+                p2.mostrar();
+                return;
+        }
+        
+        int cantidadMayor=coincidencias(p4,p2);
+        puzzle nodoMayor=p4;
+        Iterator it=auxProf.iterator();
+        while(it.hasNext()){
+            nodosExp++;
+            puzzle p3 = new puzzle();
+            p3=generarPuzzle(auxProf.poll());
+            System.out.println("Parte de extensión");
+            p3.mostrar();
+            System.out.println("Profundidad: "+ prof);
+            if(pasoApaso){
+                System.out.println("Pulse una tecla para continuar");
+                io.readLine();
+            }
+            int cantidadActual=coincidencias(p3,p2);
+            if(iguales(p3,p2)){
+                System.out.println("encontró solución");
+                p3.mostrar();
+                p2.mostrar();
+                return;
+            }
+            if(cantidadActual>cantidadMayor){
+                nodoMayor=p3;
+                cantidadMayor=cantidadActual;
+            }
+        }
+        Queue <puzzle> auxProf2 = extenderNodosProf(nodoMayor);
+        busquedaMaximaPendiente(p2,auxProf2);
+        }
+    }
 }

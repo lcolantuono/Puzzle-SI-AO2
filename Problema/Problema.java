@@ -16,7 +16,7 @@ public class Problema {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        boolean flag=true;
+        boolean flag=true;boolean pasoaPaso=false;
         String objetivoAe = "";
         String inicioAe = "";
         BufferedReader io=new BufferedReader(new InputStreamReader(System.in));
@@ -25,6 +25,9 @@ public class Problema {
             System.out.println("1. Metodo A* --------");
             System.out.println("2. Metodo por Anchura--------");
             System.out.println("3. Metodo por profundidad--------");
+            System.out.println("4. Metodo por Máxima pendiente--------");
+            System.out.println("5. Metodo Primero el mejor - manhatan--------");
+            
             System.out.println("0. Salir");
             int opcion=Integer.parseInt(io.readLine());
             if(opcion==0){
@@ -33,6 +36,14 @@ public class Problema {
                 int[][] matrizInicio = new int[3][3];
                 int[][] matrizObjetivo=new int[3][3];
                 int contador=0;
+                System.out.println("¿Desea realizar el procedimiento paso a paso? Y - si ;N - no");
+                String variable;
+                variable=io.readLine();
+                if(variable.trim().equals("Y")){
+                    pasoaPaso=true;
+                }else{
+                    pasoaPaso=false;
+                }
                 System.out.println("A CONTINUACIÓN SE SOLICITAN LOS ELEMENTOS DE LA MATRIZ OBJETIVO");
                 
                 for(int i =0;i<3;i++){
@@ -106,12 +117,16 @@ public class Problema {
                     System.out.println("------- Primero en Anchura -------");
                     System.out.println("------- Inicio: "+inicioAe);
                     System.out.println("------- Objetivo: "+objetivoAe);
-                    b1.busquedaPrimeroAnchura(inicio, objetivo);
+                    b1.busquedaPrimeroAnchura(inicio, objetivo,pasoaPaso);
                 }else if(opcion==3){ // Codigo para llamar PrimeroProfundidad
                     System.out.println("------- Primero en Profunidad -------");
                     System.out.println("------- Inicio: "+inicioAe);
                     System.out.println("------- Objetivo: "+objetivoAe);
-                    b1.busquedaPrimeroProfundidad(inicio, objetivo);
+                    b1.busquedaPrimeroProfundidad(inicio, objetivo,pasoaPaso);
+                }else if(opcion==4){
+                    b1.busquedaHill(inicio,objetivo,pasoaPaso);
+                }else if(opcion==5){
+                    b1.busqueda1Mejor(inicio,objetivo,pasoaPaso);
                 }
             }
         }
